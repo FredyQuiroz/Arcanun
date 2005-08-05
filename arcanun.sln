@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "arcanun", "arcanun.vcproj", "{C1AD8BE5-D1CD-490E-B547-2F81538AA0DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{C1AD8BE5-D1CD-490E-B547-2F81538AA0DD}.Debug.ActiveCfg = Debug|Win32
+		{C1AD8BE5-D1CD-490E-B547-2F81538AA0DD}.Debug.Build.0 = Debug|Win32
+		{C1AD8BE5-D1CD-490E-B547-2F81538AA0DD}.Release.ActiveCfg = Release|Win32
+		{C1AD8BE5-D1CD-490E-B547-2F81538AA0DD}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
