@@ -1,0 +1,291 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Español resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_MODERN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Acerca de arcanun"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "arcanun Versión 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "(C) 2005",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "Aceptar",IDOK,178,7,50,16,WS_GROUP
+END
+
+IDD_ARCANUN_DIALOG DIALOGEX 0, 0, 298, 239
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "arcanun"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EARCHIVO,57,9,181,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Explorar",IDC_BEXPLORAR,241,9,50,14
+    CONTROL         "LBT",IDC_RLBT,"Button",BS_AUTORADIOBUTTON,234,43,27,10
+    CONTROL         "LSB",IDC_RSIMPLE,"Button",BS_AUTORADIOBUTTON,234,57,27,
+                    10
+    CONTROL         "Mostrar Pixeles",IDC_CSHOW,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,226,79,65,10
+    EDITTEXT        IDC_ECONTRASENA,64,111,60,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_ECUACION,64,137,60,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ECOFFSET,64,163,60,14,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "impar",IDC_CPAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    141,166,33,10
+    DEFPUSHBUTTON   "Agregar",IDOK,122,216,50,16
+    DEFPUSHBUTTON   "E&xtraer",ID_BEXTRAER,181,216,50,16
+    CONTROL         "",IDC_PROGRESO,"msctls_progress32",WS_BORDER,7,195,284,
+                    14
+    PUSHBUTTON      "Cancelar",IDCANCEL,239,216,50,16
+    LTEXT           "Bitmap Original",IDC_STATIC,7,12,48,8
+    GROUPBOX        "Metodo",IDC_STATIC,226,32,59,40
+    LTEXT           "Fin",IDC_SFIN,7,181,284,8
+    LTEXT           "Contraseña",IDC_SCONTRASENA,17,114,38,8
+    LTEXT           "Ecuacion",IDC_SECUACIONL,17,140,29,8
+    LTEXT           "Offset",IDC_SOFFSET,17,166,22,8
+    LTEXT           "",IDC_SBITMAP,13,32,70,59,WS_BORDER
+    LTEXT           "Algo",IDC_SECUACION,141,140,142,8
+    LTEXT           "Par e impar",IDC_SPAR,7,152,284,8
+    LTEXT           "Geometrico",IDC_SGEOMETRICO,7,127,284,8
+    LTEXT           "Aleatorio",IDC_SALEATORIO,7,100,284,8
+    CONTROL         "",IDC_LDETALLES,"SysListView32",LVS_REPORT | 
+                    LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,86,32,138,59
+    GROUPBOX        "Detalles",IDC_STATIC,7,23,284,72
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "0c0a04e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Nombre de la compañía>"
+            VALUE "FileDescription", "TODO: <Descripción del archivo>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "arcanun.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Nombre de la compañía>.  Reservados todos los derechos."
+            VALUE "OriginalFilename", "arcanun.exe"
+            VALUE "ProductName", "TODO: <Nombre del producto>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0xc0a, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_ARCANUN_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 291
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 232
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+IDR_MANIFEST            RT_MANIFEST             "res\\arcanun.manifest"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "&Acerca de arcanun..."
+END
+
+#endif    // Español resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Español (Colombia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESO)
+#ifdef _WIN32
+LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)\r\n"
+    "LANGUAGE 10, 3\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\arcanun.rc2""  // recursos editados que no son de Microsoft Visual C++\r\n"
+    "#include ""afxres.rc""         // Componentes estándar\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\arcanun.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 314, 198
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Acercar",IDOK,197,177,50,14
+    PUSHBUTTON      "Cerrar",IDCANCEL,257,177,50,14
+    CONTROL         "",IDC_SORIGINAL,"Static",SS_BLACKFRAME,7,7,144,135
+    CONTROL         "",IDC_SMODIFICADO,"Static",SS_BLACKFRAME,161,7,146,136
+    CONTROL         "Mostrar Pixeles",IDC_CPIXELESM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,172,150,65,10
+    CONTROL         "Mostrar pixeles",IDC_CPIXELESO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,149,65,10
+    PUSHBUTTON      "&Alejar",IDC_BALEJAR,139,177,50,14
+    PUSHBUTTON      "Reestablecer",IDC_BRESTABLECER,81,177,50,14
+    LTEXT           "100%",IDC_SZOOM,7,183,28,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 191
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Español (Colombia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ESN)
+LANGUAGE 10, 3
+#pragma code_page(1252)
+#include "res\arcanun.rc2"  // recursos editados que no son de Microsoft Visual C++
+#include "afxres.rc"         // Componentes estándar
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
