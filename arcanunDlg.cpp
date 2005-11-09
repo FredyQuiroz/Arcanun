@@ -12,7 +12,8 @@
 #define new DEBUG_NEW
 #endif
 
-
+# define	ID_FILE_HELP	1150
+# define	HELP_TIMER		1000
 // Cuadro de diálogo CAboutDlg utilizado para el comando Acerca de
 
 class CAboutDlg : public CDialog
@@ -52,12 +53,13 @@ CarcanunDlg::CarcanunDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CarcanunDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_nMetodo=0;
+	m_nMetodo=1;
 	m_nAlgoritmo=0;
 	m_nDisponibles=0;
 	m_nDisponiblesLBT=0;
 	m_pThreadBitmap= NULL;
 	m_bExtraer= false;
+	m_pOldFocus= NULL;
 }
 
 void CarcanunDlg::DoDataExchange(CDataExchange* pDX)
@@ -80,6 +82,7 @@ void CarcanunDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LDETALLES, m_LCDetalles);
 	DDX_Control(pDX, IDC_RSIMPLE, m_BRSimple);
 	DDX_Control(pDX, IDC_CSHOW, m_BShow);
+	DDX_Control(pDX, IDC_SAYUDA, m_SAyuda);
 }
 
 BEGIN_MESSAGE_MAP(CarcanunDlg, CDialog)
@@ -101,7 +104,22 @@ BEGIN_MESSAGE_MAP(CarcanunDlg, CDialog)
 	ON_WM_DESTROY()
 	ON_MESSAGE(WM_BITMAP, OnBitmapMessage)
 	ON_BN_CLICKED(IDC_CSHOW, OnBnClickedCshow)
+	ON_WM_CONTEXTMENU()
+	ON_COMMAND(ID_FILE_HELP,OnMenuAyuda)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
+
+CString GetAppPath(const char *archivo) {
+
+	TCHAR szEXEPath[MAX_PATH];
+
+	GetModuleFileName ( NULL, szEXEPath, MAX_PATH );
+    CString path= szEXEPath;
+	path.MakeLower();
+	path.TrimRight("arcanun.exe");
+	path+= archivo;
+	return path;
+}
 
 BOOL CarcanunDlg::OnInitDialog()
 {
@@ -127,12 +145,21 @@ BOOL CarcanunDlg::OnInitDialog()
 
 	m_EAleatorio.SetNextSectionCtrl(m_SGeometrico);
 	m_SGeometrico.SetNextSectionCtrl(m_EPar);
+	m_SGeometrico.Collapse();
 	m_EPar.SetNextSectionCtrl(m_SFin);
+	m_EPar.Collapse();
 	m_EProgreso.SetRange(0,100);
-	
+	m_SAyuda.SetUnderline();
+	m_szFileHelp= GetAppPath("ayuda.htm");
+	m_SAyuda.SetURL(m_szFileHelp);
+
+	m_EBitmap.SetBitmap(GetAppPath("logo.bmp"));
+
+	OnStnClickedSaleatorio();
+
+#ifdef _DEBUG
 	switch(AfxGetApp()->GetProfileInt("archivo","algoritmo", m_nAlgoritmo)) {
 		case 1:
-			OnStnClickedSaleatorio();
 			break;
 		case 2:
 			OnStnClickedSgeometrico();
@@ -141,11 +168,12 @@ BOOL CarcanunDlg::OnInitDialog()
 			OnStnClickedSpar();
 			break;
 	}
-
 	if((m_nMetodo= AfxGetApp()->GetProfileInt("archivo", "metodo",1))==1) 
 		m_EMetodo.SetCheck(1);
 	else 
 		m_BRSimple.SetCheck(1);
+#endif
+	m_EMetodo.SetCheck(1);
 
 	m_LCDetalles.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 	m_LCDetalles.InsertColumn(0, "Propiedad", LVCFMT_LEFT, 100);
@@ -156,17 +184,20 @@ BOOL CarcanunDlg::OnInitDialog()
 	m_LCDetalles.InsertItem(3, "disponibles LSB");
 	m_LCDetalles.InsertItem(4, "disponibles LBT");
 
-	m_szBitmap= AfxGetApp()->GetProfileString("archivo", "archivo");
-	m_EArchivo.SetWindowText(m_szBitmap);
-	m_EBitmap.SetBitmap(m_szBitmap);
-	FillLista(m_szBitmap);
+#ifdef _DEBUG
+	 m_szBitmap= AfxGetApp()->GetProfileString("archivo", "archivo");
+	 m_EArchivo.SetWindowText(m_szBitmap);
+	 m_EBitmap.SetBitmap(m_szBitmap);
+	 FillLista(m_szBitmap);
 
-	m_EECuacion.SetWindowText(AfxGetApp()->GetProfileString("archivo", "ecuacion"));
-	m_EContrasena.SetWindowText(AfxGetApp()->GetProfileString("archivo", "password"));
-	m_EOffset.SetWindowText(AfxGetApp()->GetProfileString("archivo", "offset"));
-	m_BPar.SetCheck(AfxGetApp()->GetProfileInt("archivos", "par", 1));
-	m_BShow.SetCheck(AfxGetApp()->GetProfileInt("archivos", "show", 1));
+	 m_EECuacion.SetWindowText(AfxGetApp()->GetProfileString("archivo", "ecuacion"));
+	 m_EContrasena.SetWindowText(AfxGetApp()->GetProfileString("archivo", "password"));
+	 m_EOffset.SetWindowText(AfxGetApp()->GetProfileString("archivo", "offset"));
+	 m_BPar.SetCheck(AfxGetApp()->GetProfileInt("archivos", "par", 1));
+	 m_BShow.SetCheck(AfxGetApp()->GetProfileInt("archivos", "show", 1));
+#endif
 	OnBnClickedCpar();
+	SetTimer(1, HELP_TIMER, NULL);
 	return TRUE;
 }
 
@@ -216,6 +247,8 @@ bool CarcanunDlg::FillLista(CString bitmap) {
 	CBmpContenido bmpcontenido;
 	if( !bitmap.IsEmpty() && bmpcontenido.SetBitmap(bitmap)) {
 
+		if( !bmpcontenido.IsBmp24())
+			return false;
 		m_nDisponibles = bmpcontenido.GetPixeles()/8;
 		CSize tamano= bmpcontenido.GetBitmaptamano();
 		m_nDisponiblesLBT= bmpcontenido.GetBitsDisponibles()/8;
@@ -242,25 +275,34 @@ void CarcanunDlg::OnBnClickedBexplorar()
 	dialogo.m_pOFN->lpstrTitle= "Abrir Bitmap Original";
 	if( dialogo.DoModal()==IDOK) {
 		
+		if(!FillLista(dialogo.GetPathName())) {
+			MessageBox("Bitmap no compatible.\rIntente con un bitmap con profundidad de 24 bits.");
+			return;
+		}
 		m_szBitmap= dialogo.GetPathName();
 		m_EArchivo.SetWindowText(m_szBitmap);
+#ifdef _DEBUG
 		AfxGetApp()->WriteProfileString("archivo", "archivo", m_szBitmap);
+#endif
 		m_EBitmap.SetBitmap(m_szBitmap);
 		m_EBitmap.Invalidate();
-		FillLista(m_szBitmap);
 	}
 }
 
 void CarcanunDlg::OnBnClickedRlbt()
 {
 	m_nMetodo=1;
+#ifdef _DEBUG
 	AfxGetApp()->WriteProfileInt("archivo", "metodo", m_nMetodo);
+#endif
 }
 
 void CarcanunDlg::OnBnClickedRsimple()
 {
 	m_nMetodo=0;
+#ifdef _DEBUG
 	AfxGetApp()->WriteProfileInt("archivo", "metodo", m_nMetodo);
+#endif
 }
 
 void CarcanunDlg::OnBnClickedCpar()
@@ -289,37 +331,38 @@ void CarcanunDlg::OnEnChangeEcuacion()
 
 void CarcanunDlg::OnStnClickedSaleatorio()
 {
-	if( m_nAlgoritmo==1) {
-		m_EAleatorio.Uncollapse();
-	} else {
+	if( m_nAlgoritmo!=1) {
 		m_nAlgoritmo=1;
 		m_SGeometrico.Collapse();
 		m_EPar.Collapse();
+#ifdef _DEBUG
 		AfxGetApp()->WriteProfileInt("archivo","algoritmo", m_nAlgoritmo);
+#endif
 	}
 }
 
 void CarcanunDlg::OnStnClickedSgeometrico()
 {
-	if( m_nAlgoritmo==2) {
-		m_SGeometrico.Uncollapse();
-	} else {
+	if( m_nAlgoritmo!=2) {
 		m_nAlgoritmo=2;
 		m_EAleatorio.Collapse();
 		m_EPar.Collapse();
+#ifdef _DEBUG
 		AfxGetApp()->WriteProfileInt("archivo","algoritmo", m_nAlgoritmo);
+#endif
 	}
 }
 
 void CarcanunDlg::OnStnClickedSpar()
 {
-	if( m_nAlgoritmo==3) {
-		m_EPar.Uncollapse();
-	} else {
+	if( m_nAlgoritmo!=3) {
+		
 		m_nAlgoritmo=3;
 		m_EAleatorio.Collapse();
 		m_SGeometrico.Collapse();
+#ifdef _DEBUG
 		AfxGetApp()->WriteProfileInt("archivo","algoritmo", m_nAlgoritmo); 
+#endif
 	}
 }
 
@@ -332,7 +375,7 @@ void CarcanunDlg::OnBnClickedOk()
 			return;
 	}
 	CFileDialog dialogo(true, "", "", NULL, "Todos los archivos (*.*)|*.*||", this);
-	dialogo.m_pOFN->lpstrTitle= "Abrir Archivo A Agregar";
+	dialogo.m_pOFN->lpstrTitle= "Archivo A Agregar";
 	CString add,szDestino;
 
 	while( dialogo.DoModal()==IDOK) {
@@ -382,7 +425,9 @@ void CarcanunDlg::OnBnClickedOk()
 				return;
 			}
 			m_pThreadBitmap->SetPassword(parametro);
+#ifdef _DEBUG
 			AfxGetApp()->WriteProfileString("archivo", "password", parametro);
+#endif
 			break;
 		case 2: // geometrico
 			m_EECuacion.GetWindowText(parametro);
@@ -394,7 +439,9 @@ void CarcanunDlg::OnBnClickedOk()
 				return;
 			}
 			m_pThreadBitmap->SetEcuacion(parametro);
+#ifdef _DEBUG
 			AfxGetApp()->WriteProfileString("archivo", "ecuacion", parametro);
+#endif
 			m_SEcuacion.GetWindowText(parametro);
 			if( !parametro.IsEmpty()) {
 				delete m_pThreadBitmap;
@@ -413,9 +460,11 @@ void CarcanunDlg::OnBnClickedOk()
 				m_EOffset.SetFocus();
 				return;
 			}
+#ifdef _DEBUG
             AfxGetApp()->WriteProfileString("archivo", "offset", parametro);
-			m_pThreadBitmap->SetParImpar(m_BPar.GetCheck()==1, atol(parametro));
 			AfxGetApp()->WriteProfileInt("archivos", "par", m_BPar.GetCheck());
+#endif
+			m_pThreadBitmap->SetParImpar(m_BPar.GetCheck()==1, atol(parametro));
 			break;
 	}
 	CWnd *boton= GetDlgItem(IDOK);
@@ -492,7 +541,9 @@ void CarcanunDlg::OnBnClickedBextraer()
 				return;
 			}
 			m_pThreadBitmap->SetPassword(parametro);
+#ifdef _DEBUG
 			AfxGetApp()->WriteProfileString("archivo", "password", parametro);
+#endif
 			break;
 		case 2: // geometrico
 			m_EECuacion.GetWindowText(parametro);
@@ -504,7 +555,9 @@ void CarcanunDlg::OnBnClickedBextraer()
 				return;
 			}
 			m_pThreadBitmap->SetEcuacion(parametro);
+#ifdef _DEBUG
 			AfxGetApp()->WriteProfileString("archivo", "ecuacion", parametro);
+# endif
 			m_SEcuacion.GetWindowText(parametro);
 			if( !parametro.IsEmpty()) {
 				delete m_pThreadBitmap;
@@ -523,9 +576,11 @@ void CarcanunDlg::OnBnClickedBextraer()
 				m_EOffset.SetFocus();
 				return;
 			}
+#ifdef _DEBUG
             AfxGetApp()->WriteProfileString("archivo", "offset", parametro);
-			m_pThreadBitmap->SetParImpar(m_BPar.GetCheck()==1, atol(parametro));
 			AfxGetApp()->WriteProfileInt("archivos", "par", m_BPar.GetCheck());
+#endif
+			m_pThreadBitmap->SetParImpar(m_BPar.GetCheck()==1, atol(parametro));
 			break;
 	}
 
@@ -602,5 +657,118 @@ LRESULT CarcanunDlg::OnBitmapMessage(WPARAM wParam, LPARAM lParam) {
 
 void CarcanunDlg::OnBnClickedCshow()
 {
+#ifdef _DEBUG
 	AfxGetApp()->WriteProfileInt("archivos", "show", m_BShow.GetCheck());
+#endif
+}
+
+void CarcanunDlg::SetHelp(CWnd *item, CString &texto, CString &ayuda) {
+
+	ayuda= m_szFileHelp;
+	texto= "Ayuda";
+	m_SAyuda.SetWindowText(texto);
+	m_SAyuda.SetURL(ayuda);
+	m_SAyuda.Invalidate();
+	switch(item->GetDlgCtrlID()) {
+		case IDC_SVISOR:
+		case IDC_EARCHIVO:
+            ayuda+="#VISOR";
+			texto="Ayuda - Visor";
+			break;
+		case IDC_BEXPLORAR:
+			ayuda+="#EXPLORAR";
+			texto= "Ayuda - Explorar";
+			break;
+		case IDC_SBITMAP:
+			ayuda+="#VISOR3";
+			texto="Ayuda - Previsualización";
+			break;
+		case IDC_LDETALLES:
+			ayuda+="#GRILLA4";
+			texto="Ayuda - Detalles";
+			break;
+		case IDC_RLBT:
+		case IDC_RSIMPLE:
+			ayuda+="#BOTONES5";
+			texto="Ayuda - Metodo";
+			break;
+		case IDC_CSHOW:
+			ayuda+="#PIXEL6";
+			texto="Ayuda - Mostrar Pixeles";
+			break;
+		case IDC_ECONTRASENA:
+		case IDC_SALEATORIO:
+			ayuda+="#DESPLE7";
+			texto="Ayuda - Aleatorio";
+			break;
+		case IDC_SGEOMETRICO:
+		case IDC_ECUACION:
+			ayuda+="#DESPLE8";
+			texto="Ayuda - Geométrico";
+			break;
+		case IDC_SPAR:
+		case IDC_ECOFFSET:
+			ayuda+="#DESPLE9";
+			texto="Ayuda - Par e impar";
+			break;
+		case IDC_CPAR:
+			ayuda+="#PAREIMPAR10";
+			if( m_BPar.GetCheck())
+				texto="Ayuda - Par";
+			else texto= "Ayuda - Impar";
+			break;
+		case IDC_PROGRESO:
+			ayuda+="#BARRA11";
+			texto="Ayuda - Progreso";
+			break;
+		case IDOK:
+			ayuda+="#BOTON12";
+			texto="Ayuda - Agregar";
+			break;
+		case ID_BEXTRAER:
+			ayuda+="#BOTON13";
+			texto="Ayuda - Extraer";
+			break;
+		case IDCANCEL:
+			ayuda+="#BOTON14";
+			texto="Ayuda - Cancelar";
+			break;
+	}
+	m_SAyuda.SetWindowText(texto);
+	m_SAyuda.SetURL(ayuda);
+	m_SAyuda.Invalidate();
+}
+
+void CarcanunDlg::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	if( pWnd==this)
+		Default();
+	else if( pWnd) {
+		
+		CString texto, ayuda;
+		m_pOldFocus= pWnd;
+		SetHelp(pWnd, texto, ayuda);
+		CMenu menu;
+		menu.CreatePopupMenu();
+		menu.AppendMenu(MF_STRING, ID_FILE_HELP, texto);
+		menu.TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+	}
+}
+
+void CarcanunDlg::OnMenuAyuda() {
+
+	m_SAyuda.OnClicked();
+}
+
+void CarcanunDlg::OnTimer(UINT nIDEvent)
+{
+	if( nIDEvent==1) {
+		CWnd *focus= GetFocus();
+		if( !focus || focus==m_pOldFocus)
+			return;
+		m_pOldFocus= focus;
+		CString texto, ayuda;
+		SetHelp(m_pOldFocus, texto, ayuda);
+	}
+	CDialog::OnTimer(nIDEvent);
 }

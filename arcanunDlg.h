@@ -8,6 +8,10 @@
 # include "separador/checkboxseparator.h"
 # include "separador/sectionseparator.h"
 # include "threadbmp.h"
+# include "HyperLink.h"
+
+
+CString GetAppPath(const char *archivo);
 
 class CarcanunDlg : public CDialog
 {
@@ -24,8 +28,11 @@ public:
 
 // Implementación
 protected:
-	HICON	m_hIcon;
-	bool	FillLista(CString bitmap);
+	HICON		m_hIcon;
+	CString		m_szFileHelp;
+	CWnd		*m_pOldFocus;
+	void		SetHelp(CWnd *item, CString &texto, CString &ayuda);
+	bool FillLista(CString bitmap);
 
 	// Funciones de asignación de mensajes generadas
 	virtual BOOL OnInitDialog();
@@ -74,4 +81,8 @@ public:
 	CButton m_BShow;
 	afx_msg void OnBnClickedCshow();
 	bool	m_bExtraer;
+	CHyperLink m_SAyuda;
+	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg void OnMenuAyuda();
+	afx_msg void OnTimer(UINT nIDEvent);
 };

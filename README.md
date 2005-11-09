@@ -8,7 +8,7 @@ Ejercicio de Windows para explorar imágenes BMP y estudiar cómo se guarda y se
 
 ### Esta revisión
 
-**2005-08-05 · Ocultar y recuperar datos en un BMP.** Conecta el cuadro de diálogo con las operaciones sobre mapas de bits para insertar y recuperar contenido de prueba. Así se puede comparar el efecto del almacenamiento con lo que se ve en la imagen.
+**2005-11-09 · Mejorar la extracción desde imágenes BMP.** Actualiza el diálogo y las operaciones de lectura del mapa de bits para recuperar el archivo incorporado. Separa la selección de la imagen del paso de extracción para estudiar ambas partes del ejercicio.
 
 ### Cómo explorar el código
 
@@ -23,7 +23,7 @@ A Windows exercise for exploring BMP images and studying how a sample payload ca
 
 ### This revision
 
-**2005-08-05 · Embed and recover data in a BMP.** Connect the dialog to bitmap operations that embed and recover sample data. This lets users compare how the data is stored with what the image displays.
+**2005-11-09 · Improve extraction from BMP images.** Update the dialog and bitmap-reading operations used to recover the embedded file. Separate image selection from extraction so both parts of the exercise can be studied.
 
 ### How to explore the source
 

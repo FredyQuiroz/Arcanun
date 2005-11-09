@@ -127,6 +127,9 @@
 				RelativePath="BmpHide.cpp">
 			</File>
 			<File
+				RelativePath="HYPERLINK.CPP">
+			</File>
+			<File
 				RelativePath="Parser.cpp">
 			</File>
 			<File
@@ -196,6 +199,9 @@
 			</File>
 			<File
 				RelativePath="BmpHide.h">
+			</File>
+			<File
+				RelativePath="HYPERLINK.H">
 			</File>
 			<File
 				RelativePath="Parser.h">

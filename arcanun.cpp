@@ -50,11 +50,12 @@ BOOL CarcanunApp::InitInstance()
 	CarcanunDlg dlg;
 	m_pMainWnd = &dlg;
 
+# ifndef _DEBUG
 	CString szTemp= "m";
 	CSplashScreenEx *pSplash=new CSplashScreenEx();
 
 	pSplash->Create(m_pMainWnd,"",0,CSS_FADE | CSS_CENTERSCREEN | CSS_SHADOW,false);
-	pSplash->SetBitmap("logo.bmp",255,0,255);
+	pSplash->SetBitmap(GetAppPath("logo.bmp"),255,0,255);
 	pSplash->SetTextFont("Impact",100,CSS_TEXT_BOLD);
 	pSplash->SetTextRect(CRect(10,300,395,350));
 	pSplash->SetTextColor(RGB(0,255,0));
@@ -66,7 +67,7 @@ BOOL CarcanunApp::InitInstance()
 		Sleep(50);
 	}
 	pSplash->Hide();
-
+# endif
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{

@@ -37,6 +37,8 @@
 #define IDC_BALEJAR                     1028
 #define IDC_BRESTABLECER                1029
 #define IDC_SZOOM                       1030
+#define IDC_SAYUDA                      1031
+#define IDC_SVISOR                      1032
 
 // Next default values for new objects
 // 
@@ -44,7 +46,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1031
+#define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
