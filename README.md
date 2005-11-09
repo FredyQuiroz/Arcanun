@@ -18,6 +18,7 @@ Arcanun shows how small changes in a Windows bitmap can carry the contents of a 
 - Offers random, equation-based and alternate-position modes.
 - Saves another BMP and recovers its embedded file using the original image.
 - Opens a zoomable side-by-side viewer with a highlight of the selected pixels.
+- Compares the width and height returned by Windows with the available pixel bytes. Context help explains the selected control.
 
 ### Requirements
 
@@ -40,11 +41,13 @@ Click **Explorar** and select a 24-bit BMP for the verified example. This Window
 
 ### Project structure
 
-`archived-media/Logo.bmp` is the bitmap delivered beside the archived executable. The converted project copies it beside the new build. The root bitmap remains as a source asset. The archive also supplies `logo.jpg` and `res/arcanun1.ico`.
+`archived-media/Logo.bmp` is the bitmap delivered beside the archived executable. The converted project copies it beside the new build. The root bitmap remains as a source asset. The archive also supplies `logo.jpg` and `res/arcanun1.ico`. `nuevo.bmp` is the archive’s additional bitmap.
+
+The November 2005 archive includes [the original manual](ayuda.htm), its 53 supporting files in `ayuda_archivos/` and `arcanuni.nsi`, the historical installer script. The converted build copies the manual and its supporting files beside the executable. It does not run the installer.
 
 `arcanunDlg.cpp` handles the interface. `BmpContenido.cpp` and `BmpHide.cpp` operate on bitmap pixels and payload files. `ViewDlg.cpp` compares the images. The converted solution stays beside `arcanun.vcproj` and `arcanun.legacy.sln`.
 
-SEPARADOR/ contains the controls compiled by arcanun.vcxproj. The entry for the separator control is SEPARADOR/SEPARATOR.CPP. The compat/tmschema.h header bridges the Windows SDK theme constants. The resource script arcanun.rc loads the icon, manifest and res/arcanun.rc2 from res/.
+SEPARADOR/ contains the controls compiled by arcanun.vcxproj. The entry for the separator control is SEPARADOR/SEPARATOR.CPP. The compat/tmschema.h header bridges the Windows SDK theme constants. The resource script arcanun.rc loads the icon, manifest and res/arcanun.rc2 from res/. arcanunDlg.cpp opens ayuda.htm for contextual help.
 
 ### Support
 
@@ -57,6 +60,8 @@ Rebuild the solution and compare a recovered text fixture byte for byte before s
 ### History
 
 The earliest recovered edition is dated 5 August 2005. Its date comes from the newest original sources in `arcanun.rar`.
+
+`arcanun11.rar` preserves the 9 November 2005 revision, which validates the selected bitmap, reads the embedded header before allocating the extraction buffer and adds context help. The archive dates are represented at 12:00 UTC.
 
 ### License
 
@@ -81,6 +86,7 @@ Arcanun muestra cómo cambios pequeños en un bitmap de Windows pueden guardar e
 - Ofrece selección aleatoria, mediante una ecuación y mediante posiciones alternas.
 - Guarda otro BMP y recupera el archivo con ayuda de la imagen original.
 - Abre un visor lado a lado con zoom y opción para destacar los píxeles elegidos.
+- Compara el ancho y el alto que devuelve Windows con los bytes disponibles para píxeles. La ayuda contextual explica el control seleccionado.
 
 ### Requisitos
 
@@ -103,11 +109,13 @@ Pulsa **Explorar** y elige un BMP de 24 bits para el ejemplo verificado. Este fo
 
 ### Estructura del proyecto
 
-`archived-media/Logo.bmp` es el mapa de bits distribuido junto al ejecutable archivado. El proyecto convertido lo copia junto al nuevo binario. Se conserva el mapa de bits de la raíz como recurso fuente. El respaldo también incluye `logo.jpg` y `res/arcanun1.ico`.
+`archived-media/Logo.bmp` es el mapa de bits distribuido junto al ejecutable archivado. El proyecto convertido lo copia junto al nuevo binario. Se conserva el mapa de bits de la raíz como recurso fuente. El respaldo también incluye `logo.jpg` y `res/arcanun1.ico`. `nuevo.bmp` es el mapa de bits adicional del respaldo.
+
+El respaldo de noviembre de 2005 incluye [el manual original](ayuda.htm), sus 53 archivos auxiliares en `ayuda_archivos/` y `arcanuni.nsi`, el script histórico del instalador. La compilación convertida copia el manual y sus archivos junto al ejecutable. No ejecuta el instalador.
 
 `arcanunDlg.cpp` controla la interfaz. `BmpContenido.cpp` y `BmpHide.cpp` trabajan con los píxeles y los archivos guardados. `ViewDlg.cpp` compara las imágenes. La solución convertida queda junto a `arcanun.vcproj` y `arcanun.legacy.sln`.
 
-SEPARADOR/ contiene los controles que compila arcanun.vcxproj. El punto de entrada del separador es SEPARADOR/SEPARATOR.CPP. La cabecera compat/tmschema.h enlaza las constantes de temas del SDK de Windows. El script de recursos arcanun.rc carga el icono, el manifiesto y res/arcanun.rc2 desde res/.
+SEPARADOR/ contiene los controles que compila arcanun.vcxproj. El punto de entrada del separador es SEPARADOR/SEPARATOR.CPP. La cabecera compat/tmschema.h enlaza las constantes de temas del SDK de Windows. El script de recursos arcanun.rc carga el icono, el manifiesto y res/arcanun.rc2 desde res/. arcanunDlg.cpp abre ayuda.htm para la ayuda contextual.
 
 ### Soporte
 
@@ -120,6 +128,8 @@ Compila la solución y compara un archivo ficticio recuperado byte a byte antes 
 ### Historial
 
 La primera edición recuperada es del 5 de agosto de 2005. La fecha viene de las fuentes originales más recientes de `arcanun.rar`.
+
+`arcanun11.rar` conserva la revisión del 9 de noviembre de 2005. Valida el bitmap elegido, lee la cabecera del contenido antes de reservar el búfer de extracción y agrega ayuda contextual. Las fechas de respaldo se representan a las 12:00 UTC.
 
 ### Licencia
 

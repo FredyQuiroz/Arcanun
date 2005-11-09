@@ -2,6 +2,8 @@ BitmapCtrl.cpp -text
 BitmapCtrl.h -text
 BitmapPicture.cpp -text
 BitmapPicture.h -text
+HYPERLINK.CPP -text
+HYPERLINK.H -text
 Parser.cpp -text
 Parser.h -text
 SEPARADOR/CHECKBOXSEPARATOR.CPP -text
@@ -18,6 +20,9 @@ SplashScreenEx.cpp -text
 SplashScreenEx.h -text
 workerthread.cpp -text
 workerthread.h -text
+/ayuda.htm -text
+/ayuda_archivos/** -text
+/arcanuni.nsi -text
 /archived-media/** -text
 /logo.jpg -text
 /nuevo.bmp -text

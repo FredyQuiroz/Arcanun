@@ -2,6 +2,8 @@
 #include "bmphide.h"
 # include "math.h"
 
+# define	MARGEN_ERROR	10
+
 CBmpHide::CBmpHide(void)
 {
 	m_pParent=NULL;
@@ -187,9 +189,11 @@ void CBmpHide::AddInt(char *bytes, int &pos, int numero) {
 int CBmpHide::GetInt(char *bytes, int &pos) {
 
 	int numero=0;
-	for(int i=0; i<32; i++) // tamaño del archivo a extraer
-		if(bytes[pos++]) // es uno
+	for(int i=0; i<32; i++) {// tamaño del archivo a extraer
+		if(bytes[pos++]) {// es uno
 			numero|= ((int)pow(2, i));
+		}
+	}
 	return numero;
 }
 
@@ -268,24 +272,69 @@ bool CBmpHide::ExtractFile(CString bitmap, CString archivo) {
 	int tamano=0;
 	if(m_pBufferAdd)
 		delete m_pBufferAdd;
-	m_pBufferAdd= new char[m_pBmpModificado->GetBitsNecesarios(m_nTipo, m_pBmpNormal)+50];
-	m_pBmpModificado->ResetNuevo();
-	if(!m_pBmpModificado->GetBytes(m_pBufferAdd, m_pBmpModificado->GetPixeles(), m_nTipo,m_pBmpNormal))
-		return false;
-    int bits=0;
+	int totalbits= m_szHeaderMark.GetLength()*8+1;
 
-	for( int i=0; i<m_szHeaderMark.GetLength(); i++) 
+	m_pBufferAdd= new char[totalbits+MARGEN_ERROR];
+	m_pBmpModificado->ResetNuevo();
+
+	// obtenemos la marca de agua
+	if(!m_pBufferAdd || !m_pBmpModificado->GetBytes(m_pBufferAdd, totalbits, m_nTipo, m_pBmpNormal)) 
+		return false;
+
+	int bits=0;
+
+	// comprobamos la marca de agua
+	for( int i=0; i<m_szHeaderMark.GetLength(); i++) {
 		if( m_szHeaderMark[i]!= GetByte(m_pBufferAdd, bits)) {// no corresponde la marca de agua
 			return false;
 		}
+	}
+	if( m_pBufferAdd)
+		delete m_pBufferAdd;
+	// obtenemos el tamano del archivo guardado y el tamano del archivo en bits
+	totalbits+= sizeof(int)*16;
+	m_pBufferAdd= new char[totalbits+MARGEN_ERROR];
 
+	if( !m_pBufferAdd || !m_pBmpModificado->GetBytes(m_pBufferAdd, totalbits, m_nTipo, m_pBmpNormal))
+		return false;
+
+	// obtenemos el tamaño del archivo
 	tamano=GetInt(m_pBufferAdd, bits);
 	if( tamano<=0)
 		return false;
+	// obtenemos el tamaño del nombre archivo
 	int sizeoffile=GetInt(m_pBufferAdd, bits);
 
 	if(sizeoffile<=0)
 		return false;
+
+	if( m_pBufferAdd)
+		delete m_pBufferAdd;
+	
+	totalbits+= (8*tamano)+(8*sizeoffile);
+
+	m_pBufferAdd= new char[totalbits+MARGEN_ERROR];
+	
+	if( !m_pBufferAdd || !m_pBmpModificado->GetBytes(m_pBufferAdd, totalbits, m_nTipo, m_pBmpNormal))
+		return false;
+
+	//// tamano del archivo en bytes
+	//AddInt(m_pBufferAdd, bits, tamano);
+	//ASSERT(bits%8==0);
+	//// tamano del nombre del archivo en bytes
+	//AddInt(m_pBufferAdd, bits, nIndex);
+	//ASSERT(bits%8==0);
+	//// nombre del archivo
+	//for( int i=0; i<file.GetLength(); i++) 
+	//	AddByte(m_pBufferAdd, bits, file[i]);
+	//ASSERT(bits%8==0);
+	//// contenido del archivo
+	//for( int i=0; i<tamano; i++) 
+	//	AddByte(m_pBufferAdd, bits, buffer[i]);
+
+	/*if(!m_pBmpModificado->GetBytes(m_pBufferAdd, m_pBmpModificado->GetPixeles(), m_nTipo,m_pBmpNormal))
+		return false;*/
+    
 	CString nombreArchivo;
 
 	for( int i=0; i<sizeoffile; i++) 

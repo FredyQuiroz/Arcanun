@@ -123,6 +123,7 @@
     <ClCompile Include="BitmapPicture.cpp" />
     <ClCompile Include="BmpContenido.cpp" />
     <ClCompile Include="BmpHide.cpp" />
+    <ClCompile Include="HYPERLINK.CPP" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="SEPARADOR\CHECKBOXSEPARATOR.CPP" />
     <ClCompile Include="SEPARADOR\SECTIONSEPARATOR.CPP" />
@@ -145,6 +146,7 @@
     <ClInclude Include="BitmapPicture.h" />
     <ClInclude Include="BmpContenido.h" />
     <ClInclude Include="BmpHide.h" />
+    <ClInclude Include="HYPERLINK.H" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SEPARADOR\CHECKBOXSEPARATOR.H" />
@@ -177,6 +179,10 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <Target Name="CopyArcanunHelpAndLogo" AfterTargets="Build">
+    <ItemGroup>
+      <ArchivedHelp Include="$(ProjectDir)ayuda_archivos\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ArchivedHelp)" DestinationFiles="@(ArchivedHelp->'$(OutDir)ayuda_archivos\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="$(ProjectDir)archived-media\Logo.bmp" DestinationFiles="$(OutDir)logo.bmp" />
     <Copy SourceFiles="$(ProjectDir)ayuda.htm" DestinationFolder="$(OutDir)" Condition="Exists('$(ProjectDir)ayuda.htm')" />
   </Target>

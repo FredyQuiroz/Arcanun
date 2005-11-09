@@ -39,8 +39,8 @@ BEGIN
 END
 
 IDD_ARCANUN_DIALOG DIALOGEX 0, 0, 298, 239
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "arcanun"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -58,25 +58,26 @@ BEGIN
     EDITTEXT        IDC_ECOFFSET,64,163,60,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "impar",IDC_CPAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     141,166,33,10
-    DEFPUSHBUTTON   "Agregar",IDOK,122,216,50,16
-    DEFPUSHBUTTON   "E&xtraer",ID_BEXTRAER,181,216,50,16
+    DEFPUSHBUTTON   "Agregar",IDOK,137,216,50,16
+    DEFPUSHBUTTON   "E&xtraer",ID_BEXTRAER,188,216,50,16
     CONTROL         "",IDC_PROGRESO,"msctls_progress32",WS_BORDER,7,195,284,
                     14
     PUSHBUTTON      "Cancelar",IDCANCEL,239,216,50,16
-    LTEXT           "Bitmap Original",IDC_STATIC,7,12,48,8
+    LTEXT           "Bitmap Original",IDC_SVISOR,7,12,48,8
     GROUPBOX        "Metodo",IDC_STATIC,226,32,59,40
     LTEXT           "Fin",IDC_SFIN,7,181,284,8
     LTEXT           "Contraseña",IDC_SCONTRASENA,17,114,38,8
     LTEXT           "Ecuacion",IDC_SECUACIONL,17,140,29,8
     LTEXT           "Offset",IDC_SOFFSET,17,166,22,8
-    LTEXT           "",IDC_SBITMAP,13,32,70,59,WS_BORDER
+    LTEXT           "",IDC_SBITMAP,13,32,70,59
     LTEXT           "Algo",IDC_SECUACION,141,140,142,8
     LTEXT           "Par e impar",IDC_SPAR,7,152,284,8
-    LTEXT           "Geometrico",IDC_SGEOMETRICO,7,127,284,8
+    LTEXT           "Geométrico",IDC_SGEOMETRICO,7,127,284,8
     LTEXT           "Aleatorio",IDC_SALEATORIO,7,100,284,8
     CONTROL         "",IDC_LDETALLES,"SysListView32",LVS_REPORT | 
                     LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,86,32,138,59
     GROUPBOX        "Detalles",IDC_STATIC,7,23,284,72
+    LTEXT           "Ayuda",IDC_SAYUDA,7,220,125,8
 END
 
 
@@ -176,6 +177,50 @@ LANGUAGE LANG_SPANISH, SUBLANG_SPANISH_COLOMBIA
 #pragma code_page(1252)
 #endif //_WIN32
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 314, 198
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Acercar",IDOK,197,177,50,14
+    PUSHBUTTON      "Cerrar",IDCANCEL,257,177,50,14
+    CONTROL         "",IDC_SORIGINAL,"Static",SS_BLACKFRAME,7,7,144,135
+    CONTROL         "",IDC_SMODIFICADO,"Static",SS_BLACKFRAME,161,7,146,136
+    CONTROL         "Mostrar Pixeles",IDC_CPIXELESM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,172,150,65,10
+    CONTROL         "Mostrar pixeles",IDC_CPIXELESO,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,149,65,10
+    PUSHBUTTON      "&Alejar",IDC_BALEJAR,139,177,50,14
+    PUSHBUTTON      "Reestablecer",IDC_BRESTABLECER,81,177,50,14
+    LTEXT           "100%",IDC_SZOOM,7,183,28,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 191
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -220,50 +265,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\arcanun.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_DIALOG1 DIALOGEX 0, 0, 314, 198
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "Dialog"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "Acercar",IDOK,197,177,50,14
-    PUSHBUTTON      "Cerrar",IDCANCEL,257,177,50,14
-    CONTROL         "",IDC_SORIGINAL,"Static",SS_BLACKFRAME,7,7,144,135
-    CONTROL         "",IDC_SMODIFICADO,"Static",SS_BLACKFRAME,161,7,146,136
-    CONTROL         "Mostrar Pixeles",IDC_CPIXELESM,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,172,150,65,10
-    CONTROL         "Mostrar pixeles",IDC_CPIXELESO,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,14,149,65,10
-    PUSHBUTTON      "&Alejar",IDC_BALEJAR,139,177,50,14
-    PUSHBUTTON      "Reestablecer",IDC_BRESTABLECER,81,177,50,14
-    LTEXT           "100%",IDC_SZOOM,7,183,28,8
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
-    IDD_DIALOG1, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 307
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 191
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
 #endif    // Español (Colombia) resources
 /////////////////////////////////////////////////////////////////////////////
 

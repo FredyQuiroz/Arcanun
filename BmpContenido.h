@@ -60,5 +60,6 @@ public:
 	int			GetBitsNecesarios(int tipo, CBmpContenido *original);
 	void		SetParametrosTipo2( int offset, bool par);
 	void		SetPassword(CString password);
-	void			SetLBT(bool use);
+	void		SetLBT(bool use);
+	bool		IsBmp24();
 };

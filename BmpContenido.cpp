@@ -85,6 +85,15 @@ bool CBmpContenido::SetBitmap(CString bitmap) {
 	return true;
 }
 
+bool CBmpContenido::IsBmp24() {
+
+	ASSERT(m_nPixeles);
+	CSize size= GetBitmaptamano();
+	if( size.cx*size.cy>m_nPixeles)
+		return false;
+	return true;
+}
+
 int	CBmpContenido::BuildTable() {
 
 	ASSERT(m_lpbContenido);
@@ -219,7 +228,7 @@ CSize CBmpContenido::GetBitmaptamano() {
 	mibitmap.GetBitmap(&bmp);
 	mibitmap.Detach();
 	DeleteObject(handle);
-	return CSize(bmp.bmWidth,bmp.bmHeight); 
+	return CSize(bmp.bmWidth,bmp.bmHeight);
 }
 
 int	CBmpContenido::GetNextPixelMetodo(int pos) {
@@ -237,16 +246,21 @@ int	CBmpContenido::GetNextPixelMetodo(int pos) {
 
 int	CBmpContenido::GetNextPixelEcuacion(int pos) {
 
-	int y= (int) -1*m_pParser->SetEcuacion(m_szEcuacion, pos);
+	int y= -1*(int) m_pParser->SetEcuacion(m_szEcuacion, pos);
 
 	if( y>m_szTamano.cy)
 		y= m_szTamano.cy;
-	else if( y<-m_szTamano.cy)
-		y= -m_szTamano.cy;
+	else if( y<-m_szTamano.cy) 
+		y= m_szTamano.cy;
+	// lo trasladamos en y
 	y= m_szTamano.cy-y;
+	// lo trasladamos en x
 	pos+= m_szTamano.cx;
-	y*=2*m_szTamano.cx;
+	// encontramos la posicion de la traslacion
+	y*=(2*m_szTamano.cx);
+	// le sumamos el delta de x
 	y+=pos;
+	ASSERT(y<m_nPixeles);
 	if( m_pBitsPorPixel[y])
 		return y;
 	return GetNextPixel(y);
@@ -321,7 +335,7 @@ bool CBmpContenido::GetBytesEcuacion(char *bytes, int tamano, CBmpContenido *ori
 
 	if(!original || !original->m_pBitsPorPixel || original->m_nPixeles!= m_nPixeles)
 		return false;
-	if(m_nPixeles<tamano)
+	if(original->m_nBitsDisponibles<tamano)
 		return false;
 
 	int r,g,b;
@@ -335,10 +349,10 @@ bool CBmpContenido::GetBytesEcuacion(char *bytes, int tamano, CBmpContenido *ori
 
 	m_pBitsPorPixel= original->m_pBitsPorPixel;
 
-	for( int i=0;i<tamano; i++) {
+	for( ;bits<tamano; ) {
 
 		if( m_pParent && ::IsWindow(*m_pParent)) 
-			m_pParent->SendMessage(WM_BITMAP, 0, (i*100)/tamano);
+			m_pParent->SendMessage(WM_BITMAP, 0, (bits*100)/tamano);
 		if((y = GetNextPixelEcuacion(x))==-1)
 			break;
 		GetPixel(r, g,b,y);
@@ -434,7 +448,7 @@ bool CBmpContenido::GetBytesMetodo(char *bytes, int tamano, CBmpContenido *origi
 
 	if(!original || !original->m_pBitsPorPixel || original->m_nPixeles!= m_nPixeles)
 		return false;
-	if(m_nPixeles<tamano)
+	if(original->m_nBitsDisponibles<tamano)
 		return false;
 
 	int r,g,b;
@@ -446,10 +460,10 @@ bool CBmpContenido::GetBytesMetodo(char *bytes, int tamano, CBmpContenido *origi
 		delete m_pBitsPorPixel;
 	m_pBitsPorPixel= original->m_pBitsPorPixel;
 
-	for( int i=0;i<tamano; i++) {
+	for(;bits<tamano;) {
 
 		if( m_pParent && ::IsWindow(*m_pParent)) 
-			m_pParent->SendMessage(WM_BITMAP, 0, (i*100)/tamano);
+			m_pParent->SendMessage(WM_BITMAP, 0, (bits*100)/tamano);
 		pos= GetNextPixelMetodo(pos);
 		GetPixel(r, g,b,pos);
 		cantidad= m_bLBT ? m_pBitsPorPixel[pos] : 1;
@@ -490,10 +504,10 @@ bool CBmpContenido::GetBytesSimple(char *bytes, int tamano) {
 	if(m_nPixeles<tamano)
 		return false;
 
-	for( int i=0;i<tamano; i++) {
+	for( int i=0;i<tamano && bits<tamano; i++) {
 
 		if( m_pParent && ::IsWindow(*m_pParent)) 
-			m_pParent->SendMessage(WM_BITMAP, 0, (i*100)/tamano);
+			m_pParent->SendMessage(WM_BITMAP, 0, (bits*100)/tamano);
 		GetPixel(r, g,b,i);
 		bytes[bits++]=r&1;
 		bytes[bits++]=g&1;
@@ -555,7 +569,7 @@ bool CBmpContenido::GetBytesParoIm(char *bytes, int tamano, CBmpContenido *origi
 
 	if(!original || !original->m_pBitsPorPixel || original->m_nPixeles!= m_nPixeles)
 		return false;
-	if(m_nPixeles<tamano)
+	if(original->m_nBitsDisponibles<tamano)
 		return false;
 
 	int r,g,b;
@@ -567,10 +581,10 @@ bool CBmpContenido::GetBytesParoIm(char *bytes, int tamano, CBmpContenido *origi
 		pixel++;
 	pixel-= 2;
 
-	for( int i=0;i<tamano; i++) {
+	for( ;bits<tamano;) {
 
 		if( m_pParent && ::IsWindow(*m_pParent)) 
-			m_pParent->SendMessage(WM_BITMAP, 0, (i*100)/tamano);
+			m_pParent->SendMessage(WM_BITMAP, 0, (bits*100)/tamano);
 		if((pixel=original->GetNextPixel(pixel))==-1)
 			break;
 		GetPixel(r, g,b,pixel);
@@ -650,6 +664,9 @@ void CBmpContenido::AddBytesParoIm(const char *bytes, int tamano) {
 
 bool CBmpContenido::GetBytes(char *bytes, int tamano, int metodo, CBmpContenido *original) {
 
+	BuildTable();
+	if( original)
+		original->BuildTable();
 	switch(metodo) {
 		case 0:
 			return GetBytesSimple(bytes, tamano);
