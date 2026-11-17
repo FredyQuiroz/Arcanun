@@ -8,7 +8,7 @@ Ejercicio de Windows para explorar imágenes BMP y estudiar cómo se guarda y se
 
 ### Esta revisión
 
-**2005-11-09 · Mejorar la extracción desde imágenes BMP.** Actualiza el diálogo y las operaciones de lectura del mapa de bits para recuperar el archivo incorporado. Separa la selección de la imagen del paso de extracción para estudiar ambas partes del ejercicio.
+**2026-11-17 · Preparar una prueba con imágenes propias.** Documenta las dependencias de Visual C++ y los iconos o mapas de bits que necesita el proyecto. Esto permite preparar un entorno para estudiar la inserción y extracción con imágenes propias.
 
 ### Cómo explorar el código
 
@@ -23,7 +23,7 @@ A Windows exercise for exploring BMP images and studying how a sample payload ca
 
 ### This revision
 
-**2005-11-09 · Improve extraction from BMP images.** Update the dialog and bitmap-reading operations used to recover the embedded file. Separate image selection from extraction so both parts of the exercise can be studied.
+**2026-11-17 · Document a BMP test with sample images.** Document the Visual C++ dependencies and the icons or bitmaps the project expects. This helps readers prepare an environment to study embedding and extraction with their own images.
 
 ### How to explore the source
 
