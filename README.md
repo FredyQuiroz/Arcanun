@@ -39,6 +39,8 @@ Pop-Location
 
 Click **Explorar** and select a 24-bit BMP for the verified example. This Windows bitmap stores pixels directly. Choose **LSB**, which uses the least significant bit of a colour value, and **Aleatorio**. Enter a disposable text value used to select positions. Click **Agregar**, choose a plain text file, then save a new BMP. Keep the original BMP. Leave it selected and click **Extraer**. Choose the new BMP and an empty destination folder, using the same method and settings.
 
+Enable **Mostrar Pixeles** before **Agregar** to inspect the images side by side. After recovering `ejemplo.txt`, compare it to the input with `Get-FileHash .\entrada\ejemplo.txt, .\salida\ejemplo.txt`. Use synthetic local files from a source you control.
+
 ### Project structure
 
 `archived-media/Logo.bmp` is the bitmap delivered beside the archived executable. The converted project copies it beside the new build. The root bitmap remains as a source asset. The archive also supplies `logo.jpg` and `res/arcanun1.ico`. `nuevo.bmp` is the archive’s additional bitmap.
@@ -62,6 +64,8 @@ Rebuild the solution and compare a recovered text fixture byte for byte before s
 The earliest recovered edition is dated 5 August 2005. Its date comes from the newest original sources in `arcanun.rar`.
 
 `arcanun11.rar` preserves the 9 November 2005 revision, which validates the selected bitmap, reads the embedded header before allocating the extraction buffer and adds context help. The archive dates are represented at 12:00 UTC.
+
+The first 2026 documentation revision records how to repeat a local round trip and compare the recovered file.
 
 ### License
 
@@ -107,6 +111,8 @@ Pop-Location
 
 Pulsa **Explorar** y elige un BMP de 24 bits para el ejemplo verificado. Este formato de Windows guarda los píxeles directamente. Elige **LSB**, que usa el bit menos significativo de un valor de color, y **Aleatorio**. Escribe un texto ficticio que se usará para elegir las posiciones. Pulsa **Agregar**, elige un archivo de texto y guarda un BMP nuevo. Conserva el BMP original. Déjalo seleccionado y pulsa **Extraer**. Selecciona el BMP nuevo y una carpeta vacía con el mismo método y ajustes.
 
+Activa **Mostrar Pixeles** antes de pulsar **Agregar** para ver las imágenes lado a lado. Después de recuperar `ejemplo.txt`, compáralo con el archivo original mediante `Get-FileHash .\entrada\ejemplo.txt, .\salida\ejemplo.txt`. Usa archivos ficticios locales cuyo origen conozcas.
+
 ### Estructura del proyecto
 
 `archived-media/Logo.bmp` es el mapa de bits distribuido junto al ejecutable archivado. El proyecto convertido lo copia junto al nuevo binario. Se conserva el mapa de bits de la raíz como recurso fuente. El respaldo también incluye `logo.jpg` y `res/arcanun1.ico`. `nuevo.bmp` es el mapa de bits adicional del respaldo.
@@ -130,6 +136,8 @@ Compila la solución y compara un archivo ficticio recuperado byte a byte antes 
 La primera edición recuperada es del 5 de agosto de 2005. La fecha viene de las fuentes originales más recientes de `arcanun.rar`.
 
 `arcanun11.rar` conserva la revisión del 9 de noviembre de 2005. Valida el bitmap elegido, lee la cabecera del contenido antes de reservar el búfer de extracción y agrega ayuda contextual. Las fechas de respaldo se representan a las 12:00 UTC.
+
+La primera revisión documental de 2026 describe cómo repetir una prueba local y comparar el archivo recuperado.
 
 ### Licencia
 
