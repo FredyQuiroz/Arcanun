@@ -6,28 +6,42 @@
 
 Ejercicio de Windows para explorar imágenes BMP y estudiar cómo se guarda y se recupera un contenido de prueba dentro de una imagen.
 
-### Esta revisión
+### Qué puedes hacer
 
-**2026-11-17 · Preparar una prueba con imágenes propias.** Documenta las dependencias de Visual C++ y los iconos o mapas de bits que necesita el proyecto. Esto permite preparar un entorno para estudiar la inserción y extracción con imágenes propias.
+- Abre un mapa de bits y visualiza su contenido.
+- Incluye el recorrido para incorporar y recuperar un mensaje de prueba.
+- Permite comparar la imagen original con la imagen resultante.
 
-### Cómo explorar el código
+### Ejemplo
+
+Usa un BMP de muestra y un texto corto inventado. Explora en la aplicación qué datos se incorporan y qué resultado se recupera.
+
+### Cómo empezar
 
 El código se creó para Windows y Visual C++. Usa las versiones de MFC o de los SDK que indiquen la solución y sus referencias. Los recursos y componentes externos de la época pueden requerir una copia autorizada. La compilación completa depende de ese entorno original.
 
-- [arcanun.sln](arcanun.sln)
-- [arcanun.vcproj](arcanun.vcproj)
+Puntos de entrada en el código. [`arcanun.sln`](arcanun.sln), [`arcanun.vcproj`](arcanun.vcproj).
+
+Las fechas del historial se apoyan en Git o en la evidencia disponible de los respaldos. Las fechas reconstruidas a partir de archivos sin zona horaria usan las 12:00 UTC como referencia.
 
 ## English
 
 A Windows exercise for exploring BMP images and studying how a sample payload can be stored in and retrieved from an image.
 
-### This revision
+### What you can do
 
-**2026-11-17 · Document a BMP test with sample images.** Document the Visual C++ dependencies and the icons or bitmaps the project expects. This helps readers prepare an environment to study embedding and extraction with their own images.
+- Open a bitmap and display its contents.
+- Includes the workflow for inserting and retrieving a sample message.
+- Lets you compare the original and resulting images.
 
-### How to explore the source
+### Example
+
+Use a sample BMP and short fictional text. Explore which data is embedded and what gets recovered.
+
+### Getting started
 
 The code was written for Windows and Visual C++. Use the MFC and SDK versions indicated by the solution and its references. Historical resources and external components may require an authorized copy. A full build depends on that original environment.
 
-- [arcanun.sln](arcanun.sln)
-- [arcanun.vcproj](arcanun.vcproj)
+Entry points in the source. [`arcanun.sln`](arcanun.sln), [`arcanun.vcproj`](arcanun.vcproj).
+
+History dates come from Git or available backup evidence. Reconstructed dates from files with no time zone use 12:00 UTC as a reference.
