@@ -49,7 +49,7 @@ The November 2005 archive includes [the original manual](ayuda.htm), its 53 supp
 
 `arcanunDlg.cpp` handles the interface. `BmpContenido.cpp` and `BmpHide.cpp` operate on bitmap pixels and payload files. `ViewDlg.cpp` compares the images. The converted solution stays beside `arcanun.vcproj` and `arcanun.legacy.sln`.
 
-SEPARADOR/ contains the controls compiled by arcanun.vcxproj. The entry for the separator control is SEPARADOR/SEPARATOR.CPP. The compat/tmschema.h header bridges the Windows SDK theme constants. The resource script arcanun.rc loads the icon, manifest and res/arcanun.rc2 from res/. arcanunDlg.cpp opens ayuda.htm for contextual help.
+SEPARADOR/ contains the controls compiled by arcanun.vcxproj. The entry for the separator control is SEPARADOR/SEPARATOR.CPP. The compat/tmschema.h header bridges the Windows SDK theme constants. The resource script arcanun.rc loads the icon, manifest and res/arcanun.rc2 from res/. docs/media/comparison.png and docs/media/round-trip.gif show the local test. arcanunDlg.cpp opens ayuda.htm for contextual help.
 
 ### Support
 
@@ -65,7 +65,22 @@ The earliest recovered edition is dated 5 August 2005. Its date comes from the n
 
 `arcanun11.rar` preserves the 9 November 2005 revision, which validates the selected bitmap, reads the embedded header before allocating the extraction buffer and adds context help. The archive dates are represented at 12:00 UTC.
 
-The first 2026 documentation revision records how to repeat a local round trip and compare the recovered file.
+The first 2026 documentation revision records how to repeat a local round trip and compare the recovered file. The second reconstruction note records the verified round trip and captures.
+
+### Verification
+
+The previously recorded images show the reconstruction trial of November 19, 2026.
+
+**22 November 2026.** Windows 11 Pro build 26300, Visual Studio Community 2026 18.11.4, MSBuild 18.11.1.51303, MSVC 14.51.36263 v145 and Windows SDK 10.0.26100.0. The four independent builds used the listed original components.
+
+- `MSBuild arcanun.sln /m:2 /nr:false /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:PreferredToolArchitecture=x64` returned 0 for all four revisions.
+- `.\arcanun.exe` ran from `bin\Release`. With LSB and the random-position option, each copy opened a synthetic 360 × 240 BMP, saved a modified copy, opened the viewer and recovered the original 51 bytes with the same SHA-256. Closing with **Cancelar** returned 2, the dialog’s normal cancellation status.
+
+The PNG and GIF show a separate run on November 19 using the same application source. This commit also compiled and ran.
+
+![The comparison shows the original sample on the left and the highlighted selected pixels on the right](docs/media/comparison.png)
+
+![The Arcanun window shows the bitmap details, the comparison and the successful extraction message](docs/media/round-trip.gif)
 
 ### License
 
@@ -121,7 +136,7 @@ El respaldo de noviembre de 2005 incluye [el manual original](ayuda.htm), sus 53
 
 `arcanunDlg.cpp` controla la interfaz. `BmpContenido.cpp` y `BmpHide.cpp` trabajan con los píxeles y los archivos guardados. `ViewDlg.cpp` compara las imágenes. La solución convertida queda junto a `arcanun.vcproj` y `arcanun.legacy.sln`.
 
-SEPARADOR/ contiene los controles que compila arcanun.vcxproj. El punto de entrada del separador es SEPARADOR/SEPARATOR.CPP. La cabecera compat/tmschema.h enlaza las constantes de temas del SDK de Windows. El script de recursos arcanun.rc carga el icono, el manifiesto y res/arcanun.rc2 desde res/. arcanunDlg.cpp abre ayuda.htm para la ayuda contextual.
+SEPARADOR/ contiene los controles que compila arcanun.vcxproj. El punto de entrada del separador es SEPARADOR/SEPARATOR.CPP. La cabecera compat/tmschema.h enlaza las constantes de temas del SDK de Windows. El script de recursos arcanun.rc carga el icono, el manifiesto y res/arcanun.rc2 desde res/. docs/media/comparison.png y docs/media/round-trip.gif muestran la prueba local. arcanunDlg.cpp abre ayuda.htm para la ayuda contextual.
 
 ### Soporte
 
@@ -137,7 +152,22 @@ La primera edición recuperada es del 5 de agosto de 2005. La fecha viene de las
 
 `arcanun11.rar` conserva la revisión del 9 de noviembre de 2005. Valida el bitmap elegido, lee la cabecera del contenido antes de reservar el búfer de extracción y agrega ayuda contextual. Las fechas de respaldo se representan a las 12:00 UTC.
 
-La primera revisión documental de 2026 describe cómo repetir una prueba local y comparar el archivo recuperado.
+La primera revisión documental de 2026 describe cómo repetir una prueba local y comparar el archivo recuperado. La segunda nota de reconstrucción registra la prueba verificada y sus capturas.
+
+### Verificación
+
+Las imágenes ya registradas muestran la prueba de reconstrucción del 19 de noviembre de 2026.
+
+**22 de noviembre de 2026.** Windows 11 Pro compilación 26300, Visual Studio Community 2026 18.11.4, MSBuild 18.11.1.51303, MSVC 14.51.36263 v145 y SDK de Windows 10.0.26100.0. Las cuatro compilaciones independientes usaron los componentes originales listados.
+
+- `MSBuild arcanun.sln /m:2 /nr:false /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:PreferredToolArchitecture=x64` devolvió 0 en las cuatro revisiones.
+- `.\arcanun.exe` se ejecutó desde `bin\Release`. Con LSB y el modo aleatorio, cada copia abrió un BMP ficticio de 360 × 240, guardó otro BMP, abrió el visor y recuperó los 51 bytes originales con el mismo SHA-256. Al cerrar con **Cancelar** devolvió 2, el estado normal de cancelación del diálogo.
+
+El PNG y el GIF muestran otra prueba del 19 de noviembre con las mismas fuentes de aplicación. Este commit también compiló y se ejecutó.
+
+![El visor muestra la imagen original a la izquierda y los píxeles seleccionados a la derecha](docs/media/comparison.png)
+
+![La ventana de Arcanun muestra los detalles del bitmap, el visor y el mensaje de extracción completa](docs/media/round-trip.gif)
 
 ### Licencia
 
